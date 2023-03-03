@@ -1,0 +1,67 @@
+---
+title: "zia_data"
+author: "Leah Riganyan"
+date: "02/14/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include=FALSE}
+require(tidyverse)
+require(tigerstats)
+mydata <- read.csv(file = "ziadata.csv" )
+mydata$Scorpion_ID <- as.factor(mydata$Scorpion_ID)
+```
+   
+#   Analysis of NumProbes
+   
+```{r}
+boxplot(NumProbes~Scorpion_ID,data=mydata)
+```
+   
+The boxplot shows that the High box barely clips into the bottom of the Low box. Scorpions with a high temperature were quick to sting more than the low temperature, which requires more probes to sting.
+    
+    
+       
+```{r}
+favstats(NumProbes~Scorpion_ID,data=mydata)
+```
+   
+The mean of High is 6.5, while the mean of Low is 23.5. This tells us that on average it will take a High temperature scorpion 6.5 probes to sting, while for the Low temperature scorpions took 23.5 probes to sting. 
+   
+```{r}
+t.test(NumProbes~Scorpion_ID,data=mydata)
+```
+   
+The p-value is .03651. At the 95% confidence level, there is a difference between the low temperature and the high temperature scorpions. 
+   
+
+# Analysis of TimeSting
+   
+```{r}
+boxplot(TimeSting~Scorpion_ID,data=mydata)
+```
+   
+It doesn't look like we'll get a significant P-value out of this set. It took the low temperature scorpions longer to sting than the high temperature scorpions. 
+
+   
+
+```{r}
+favstats(TimeSting~Scorpion_ID,data=mydata)
+```
+    
+The mean for the high temperature scorpions is 11.03, while the mean for the low temperature scorpions is 34.4. This shows a difference in the standard deviation, median, etc.
+
+
+
+
+
+```{r}
+t.test(TimeSting~Scorpion_ID,data=mydata, conf.level= .9)
+```
+The p-value here is .05165 at the 95% confidence interval. Unlike the NumProbes t.test, there is a 0 present in this interval. At the 90% confidence level, we can conclude that there's a difference. At the 99% confidence interval is -56 to 9.63. If 0 is in the confidence level, we can't call them different. 
+
+
